@@ -1,16 +1,16 @@
-const getStringLength = (string = '', maxLength = 1) => string.length <= maxLength;
-getStringLength('проверяемая строка', 18);
+//Функция для проверки длины строки
 
-const isPalindrome = (string = '') => {
+const checkLength = (str, maxLength) => str.length <= maxLength;
 
-  string = string.replace(/\s+/g, '').toUpperCase();
+checkLength();
 
-  let newString = '';
 
-  for (let i = string.length - 1; i >= 0; i--) {
-    newString = newString + string[i];
+//Функция для проверки, является ли строка палиндромом
 
-  }
-  return string === newString;
+const isPalendrom = (str = '') => {
+  const normalize = str.replaceAll(' ', '').toUpperCase();
+  const reversed = normalize.split('').reverse().join('');
+  return normalize === reversed;
 };
-isPalindrome('топот');
+
+isPalendrom();
