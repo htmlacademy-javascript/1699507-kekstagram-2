@@ -12,7 +12,7 @@ console.log(checkLength('сектор газа', 10)); // false
 
 //Функция для проверки, является ли строка палиндромом
 
-const isPalendrom = (str) => {
+const isPalendrom = (str = '') => {
   //Избавляюсь в строке от пробелов и привожу все символы в верхний регистр
   const normalize = str.replaceAll(' ', '').toUpperCase();
 
