@@ -90,4 +90,4 @@ const addPhoto = () => {
   return photos;
 };
 
-console.log(addPhoto());
+addPhoto();
