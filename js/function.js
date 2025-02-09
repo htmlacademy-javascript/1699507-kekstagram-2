@@ -2,7 +2,7 @@
 
 const checkLength = (str, maxLength) => str.length <= maxLength;
 
-checkLength();
+checkLength('слово', 4);
 
 
 //Функция для проверки, является ли строка палиндромом
