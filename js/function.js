@@ -13,4 +13,4 @@ const isPalendrom = (str = '') => {
   return normalize === reversed;
 };
 
-isPalendrom();
+isPalendrom('дрова');
