@@ -1,7 +1,8 @@
 import { photos } from './data.js';
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const photosList = document.querySelector('.picture');
+const photosList = document.querySelector('.pictures');
+
 
 const renderPhoto = ({ url, likes, comments }) => {
   const photoPreviw = pictureTemplate.cloneNode(true);
@@ -23,6 +24,6 @@ const renderPhotos = () => {
   photosList.appendChild(photosFragment);
 };
 
-renderPhotos();
+console.log(renderPhoto());
 
 export { renderPhotos };
