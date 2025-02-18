@@ -1,17 +1,19 @@
 import { photos } from './data.js';
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
-
-// Отрисовка одной миниатюры
-const photo = photos[10];
-const image = template.querySelector('.picture__img');
-image.src = photo.url;
-image.alt = photo.description;
-template.querySelector('.picture__comments').textContent = photo.comments.length;
-template.querySelector('.picture__likes').textContent = photo.likes;
-
 const container = document.querySelector('.picture');
-container.appendChild(template);
+
+photos.forEach((photo) => {
+  const thumbnail = template.cloneNode(true);
+  const image = thumbnail.querySelector('.picture__img');
+  image.src = photo.url;
+  image.alt = photo.description;
+  template.querySelector('.picture__comments').textContent = photo.comments.length;
+  template.querySelector('.picture__likes').textContent = photo.likes;
+
+  container.appendChild(thumbnail);
+});
+
 /**
  * Отобразить фотографии других пользователей.
 
