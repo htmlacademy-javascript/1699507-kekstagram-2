@@ -1,41 +1,28 @@
 import { photos } from './data.js';
 
-const template = document.querySelector('#picture').content.querySelector('.picture');
-const container = document.querySelector('.picture');
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const photosList = document.querySelector('.picture');
 
-photos.forEach((photo) => {
-  const thumbnail = template.cloneNode(true);
-  const image = thumbnail.querySelector('.picture__img');
-  image.src = photo.url;
-  image.alt = photo.description;
-  template.querySelector('.picture__comments').textContent = photo.comments.length;
-  template.querySelector('.picture__likes').textContent = photo.likes;
+const renderPhoto = ({ url, likes, comments }) => {
+  const photoPreviw = pictureTemplate.cloneNode(true);
 
-  container.appendChild(thumbnail);
-});
+  photoPreviw.querySelector('.picture__img').src = url;
+  photoPreviw.querySelector('.picture__likes').textContent = likes;
+  photoPreviw.querySelector('.picture__comments').textContent = comments.length;
 
-/**
- * Отобразить фотографии других пользователей.
+  return photoPreviw;
+};
 
-Заведите модуль, который будет отвечать за отрисовку миниатюр.
+const renderPhotos = () => {
+  const photosFragment = document.createDocumentFragment();
 
-На основе временных данных для разработки и шаблона #picture создайте DOM-элементы, соответствующие фотографиям, и заполните их данными:
+  photos.forEach((photo) => {
+    photosFragment.appendChild(renderPhoto(photo));
+  });
 
-Адрес изображения url подставьте как атрибут src изображения.
-Описание изображения description подставьте в атрибут alt изображения.
-Количество лайков likes выведите в блок .picture__likes.
-Количество комментариев comments выведите в блок .picture__comments.
-Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки элементов используйте DocumentFragment.
+  photosList.appendChild(photosFragment);
+};
 
-Подключите модуль в проект.
- */
+renderPhotos();
 
-/**
-    <a href="#" class="picture">
-      <img class="picture__img" src="" width="182" height="182" alt="Случайная фотография">
-      <p class="picture__info">
-        <span class="picture__comments"></span>
-        <span class="picture__likes"></span>
-      </p>
-    </a>
- */
+export { renderPhotos };
