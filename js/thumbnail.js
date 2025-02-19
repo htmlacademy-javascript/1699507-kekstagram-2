@@ -24,6 +24,4 @@ const renderPhotos = () => {
   photosList.appendChild(photosFragment);
 };
 
-console.log(renderPhoto());
-
 export { renderPhotos };
