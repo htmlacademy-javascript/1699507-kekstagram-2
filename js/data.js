@@ -83,6 +83,5 @@ const addPhoto = () => {
 };
 
 export { addPhoto };
-export { photos };
 
 

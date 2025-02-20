@@ -1,5 +1,3 @@
-import { photos } from './data.js';
-
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const photosList = document.querySelector('.pictures');
 
@@ -14,7 +12,7 @@ const renderPhoto = ({ url, likes, comments }) => {
   return photoPreviw;
 };
 
-const renderPhotos = () => {
+const renderPhotos = (photos) => {
   const photosFragment = document.createDocumentFragment();
 
   photos.forEach((photo) => {
