@@ -5,8 +5,14 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
+const onEscKeydown = (evt, cb) => {
+  if (evt.key === 'Escape' && cb) {
+    cb();
+  }
+};
+
 //Функция для получения случайного элемента массива
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomArrayElement, getRandomInteger};
+export {getRandomArrayElement, getRandomInteger, onEscKeydown};

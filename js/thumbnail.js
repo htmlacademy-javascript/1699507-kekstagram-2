@@ -2,9 +2,10 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const photosList = document.querySelector('.pictures');
 
 
-const renderPhoto = ({ url, likes, comments }) => {
+const renderPhoto = ({id, url, likes, comments }) => {
   const photoPreviw = pictureTemplate.cloneNode(true);
 
+  photoPreviw.dataset.pictureId = id;
   photoPreviw.querySelector('.picture__img').src = url;
   photoPreviw.querySelector('.picture__likes').textContent = likes;
   photoPreviw.querySelector('.picture__comments').textContent = comments.length;
@@ -22,4 +23,4 @@ const renderPhotos = (photos) => {
   photosList.appendChild(photosFragment);
 };
 
-export { renderPhotos };
+export { renderPhotos, pictureTemplate };
