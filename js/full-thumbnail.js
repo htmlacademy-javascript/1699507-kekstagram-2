@@ -2,35 +2,31 @@ import { photos } from './data.js';
 import { onEscKeydown } from './util.js';
 
 const fullThumbnail = document.querySelector('.big-picture');
-console.log(fullThumbnail);
 const fullThumbnailImgNode = document.querySelector('.big-picture__img').querySelector('img');
-console.log(fullThumbnailImgNode);
 const likesCountNode = fullThumbnail.querySelector('.likes-count');
-console.log(likesCountNode);
 const socialCommentsNode = fullThumbnail.querySelector('.social__comments');
-console.log(socialCommentsNode);
 const socialCommentTemplate = socialCommentsNode.querySelector('.social__comment');
-console.log(socialCommentTemplate);
-const commentsCaptionNode = fullThumbnail.querySelector('.social__caption');
-console.log(commentsCaptionNode);
+const messageCaptionNode = fullThumbnail.querySelector('.social__caption');
 const commentsCountNode = fullThumbnail.querySelector('.social__comment-count');
-console.log(commentsCountNode);
 const commentsLoaderNode = fullThumbnail.querySelector('.social__comments-loader');
-console.log(commentsLoaderNode);
 const fullThumbnailCancelNode = fullThumbnail.querySelector('.big-picture__cancel');
-console.log(fullThumbnailCancelNode);
 
-const closefullThumbnail = () => {
-  fullThumbnail.classList.add('hidden');
-  fullThumbnailCancelNode.removeEventListener('keydown', onEscKeydown);
-};
-
-const onFullThumbnailCancelClick = () => {
+function onFullThumbnailCancelClick() {
   closefullThumbnail();
+}
+
+const closeOnDocumentEscape = (evt) => {
+  onEscKeydown(evt, closefullThumbnail);
 };
+
+function closefullThumbnail() {
+  fullThumbnail.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', closeOnDocumentEscape);
+}
 
 const openFullThumbnail = (pictureId) => {
-  const currentPhoto = photos.find((photo) => photo.id === +(pictureId));
+  const currentPhoto = photos.find((photo) => photo.id === Number(pictureId));
   const socialCommentsFragment = document.createDocumentFragment();
 
   fullThumbnailImgNode.src = currentPhoto.url;
@@ -47,14 +43,17 @@ const openFullThumbnail = (pictureId) => {
   });
 
   socialCommentsNode.appendChild(socialCommentsFragment);
-  commentsCaptionNode.textContent = currentPhoto.description;
+  messageCaptionNode.textContent = currentPhoto.description;
   commentsCountNode.classList.add('hidden');
   commentsLoaderNode.classList.add('hidden');
 
   fullThumbnail.classList.remove('hidden');
   fullThumbnailCancelNode.addEventListener('click', onFullThumbnailCancelClick);
+
+  fullThumbnailCancelNode.focus();
+
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('keydown', closeOnDocumentEscape);
 };
 
 export { openFullThumbnail };

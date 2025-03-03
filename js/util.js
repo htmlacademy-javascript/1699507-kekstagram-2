@@ -5,9 +5,9 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const onEscKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    closefullThumbnail();
+const onEscKeydown = (evt, cb) => {
+  if (evt.key === 'Escape' && cb) {
+    cb();
   }
 };
 
