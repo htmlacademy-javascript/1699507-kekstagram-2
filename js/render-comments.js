@@ -12,7 +12,7 @@ socialCommentsNode.innerHTML = '';
 const renderNextComments = () => {
   const socialCommentsFragment = document.createDocumentFragment();
   const renderComments = comments.slice(currentCount, currentCount + COUNT_STEP);
-  const rebderCommentsLength = renderComments.length + currentCount;
+  const renderCommentsLength = renderComments.length + currentCount;
 
   renderComments.forEach((comment) => {
     const socialCommentNode = socialCommentTemplate.cloneNode(true);
@@ -25,7 +25,7 @@ const renderNextComments = () => {
   });
 
   socialCommentsNode.appendChild(socialCommentsFragment);
-  commentsCountNode.firstChild.textContent = `${rebderCommentsLength} из `;
+  commentsCountNode.firstChild.textContent = `${renderCommentsLength} из `;
   commentsCountNode.querySelector('.comments-count').textContent = comments.length;
 
   if (renderCommentsLength >= comments.length) {
