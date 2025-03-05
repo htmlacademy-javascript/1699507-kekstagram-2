@@ -25,7 +25,7 @@ const renderNextComments = () => {
   });
 
   socialCommentsNode.appendChild(socialCommentsFragment);
-  commentsCountNode.firstChild.textContent = `${renderCommentsLength} `;
+  commentsCountNode.querySelector('.social__comment-shown-count').textContent = `${renderCommentsLength} `;
   commentsCountNode.querySelector('.social__comment-total-count').textContent = comments.length;
 
   if (renderCommentsLength >= comments.length) {
@@ -34,18 +34,22 @@ const renderNextComments = () => {
   currentCount += COUNT_STEP;
 };
 
+const onCommentLoaderClick = () => {
+  renderNextComments();
+};
+
 const clearComments = () => {
   currentCount = 0;
   socialCommentsNode.innerHTML = '';
   commentsLoaderNode.classList.remove('hidden');
-  commentsLoaderNode.removeEventListener('click', renderNextComments);
+  commentsLoaderNode.removeEventListener('click', onCommentLoaderClick);
 };
 
 const renderComments = (currentPhotoComments) => {
   comments = currentPhotoComments;
   renderNextComments();
 
-  commentsLoaderNode.addEventListener('click', renderNextComments);
+  commentsLoaderNode.addEventListener('click', onCommentLoaderClick);
 };
 
 export { clearComments, renderComments};
