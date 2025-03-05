@@ -36,7 +36,7 @@ const openFullThumbnail = (pictureId) => {
   fullThumbnail.classList.remove('hidden');
   document.body.classList.add('modal-open');
   fullThumbnailCancelNode.addEventListener('click', onFullThumbnailCancelClick);
-  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('keydown', closeOnDocumentEscape);
 };
 
 export { openFullThumbnail };

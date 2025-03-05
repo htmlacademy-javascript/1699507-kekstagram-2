@@ -25,8 +25,8 @@ const renderNextComments = () => {
   });
 
   socialCommentsNode.appendChild(socialCommentsFragment);
-  commentsCountNode.firstChild.textContent = `${renderCommentsLength} из `;
-  commentsCountNode.querySelector('.comments-count').textContent = comments.length;
+  commentsCountNode.firstChild.textContent = `${renderCommentsLength} `;
+  commentsCountNode.querySelector('.social__comment-total-count').textContent = comments.length;
 
   if (renderCommentsLength >= comments.length) {
     commentsLoaderNode.classList.add('hidden');
