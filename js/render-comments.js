@@ -11,10 +11,10 @@ socialCommentsNode.innerHTML = '';
 
 const renderNextComments = () => {
   const socialCommentsFragment = document.createDocumentFragment();
-  const renderComments = comments.slice(currentCount, currentCount + COUNT_STEP);
-  const renderCommentsLength = renderComments.length + currentCount;
+  const renderedComments = comments.slice(currentCount, currentCount + COUNT_STEP);
+  const renderCommentsLength = renderedComments.length + currentCount;
 
-  renderComments.forEach((comment) => {
+  renderedComments.forEach((comment) => {
     const socialCommentNode = socialCommentTemplate.cloneNode(true);
 
     socialCommentNode.querySelector('.social__picture').src = comment.avatar;
