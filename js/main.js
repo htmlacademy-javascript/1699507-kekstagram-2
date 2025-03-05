@@ -2,6 +2,7 @@ import './util.js';
 import {addPhoto} from './data.js';
 import { renderPhotos } from './thumbnail.js';
 import { openFullThumbnail } from './full-thumbnail.js';
+import './render-comments.js';
 
 renderPhotos(addPhoto());
 
