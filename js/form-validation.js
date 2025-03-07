@@ -1,4 +1,9 @@
 import { onEscKeydown } from './util.js';
+// import { numDecline } from './util.js';
+
+const MAX_SYMBOLS = 20;
+const MAX_HASHTAG = 5;
+let errorMessaga = '';
 
 const form = document.querySelector('.img-upload__form');
 const pageBody = document.querySelector('body');
@@ -43,45 +48,80 @@ const initUploadModal = () => {
   });
 };
 
-initUploadModal();
-
-const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error',
-}, false);
+  errorClass: 'img-upload__field-wrapper--error',
+});
 
-function validateSymbolCount(count) {
-  return count.length <= 140;
-}
+const error = () => errorMessaga;
+const isHashtagsValid = (value) => {
+  errorMessaga = '';
 
-// pristine.addValidator(form.querySelector('.text__description'), validateSymbolCount, 'Длина комментария не может составлять больше 140 символов');
-// /**
-//  * Фиксируем условия валидации:
-//  * 1. Длина комментария не может быть больше 140 символов. - ЕСТЬ
-//  * 2. Комментиарии не обязательны - required не указываем - ЕСТЬ
-//  * 3. Если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения. - пока не могу проверить
-//  * По ХЭШТЕГАМ
-//  * 1. хэштег начинается с символа # (решётка);
-//  * 2. строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
-//  * 3. хеш-тег не может состоять только из одной решётки;
-//  * 4. максимальная длина одного хэштега 20 символов, включая решётку;
-//  * 5. хэштеги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом; - приводим к lowerCase
-//  * 6.хэштеги разделяются пробелами;
-//  * 7.один и тот же хэштег не может быть использован дважды;
-//  * 8. нельзя указать больше пяти хэштегов;
-//  * 9.хэштеги необязательны - required не указываем - ЕСТЬ;
-//  * 10.если фокус находится в поле ввода хэштега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-//  *
-//  *
-//  * Ошибки выводятся внутри блока .img-upload__field-wrapper соответствующего поля. Также, если поле заполнено неверно, блоку, в котором выводится текст ошибки, добавляется класс .img-upload__field-wrapper--error - ЕСТЬ
-//  *
-//  * На время выполнения запроса к серверу кнопка «Отправить» блокируется.
-//  */
+  const inputText = value.toLowerCase().trim();
+
+  if (inputText === 0) {
+    return true;
+  }
+
+  const inputArray = inputText.split(/\s+/);
+
+  const rules = [
+    {
+      check: inputArray.some((item) => item === '#'),
+      error: 'Хештег не может состоять только из одной решетки',
+    },
+    {
+      check: inputArray.some((item) => item.slice(1).includes('#')),
+      error: 'Хештеги разделяются пробелами',
+    },
+    {
+      check: inputArray.some((item) => item[0] !== '#'),
+      error: 'Хештег должен начинаться с символа',
+    },
+    {
+      check: inputArray.some((item, num, array) => array.includes(item, num + 1)),
+      error: 'Хештеги не должны повторяться',
+    },
+    {
+      check: inputArray.some((item) => item.length > MAX_SYMBOLS),
+      error: 'Хештег не может быть больше 20 символов',
+    },
+    {
+      check: inputArray.length > MAX_HASHTAG,
+      error: `Нельзя указать больше ${MAX_HASHTAG} ${numDecline(
+        MAX_HASHTAG, 'хештега', 'хештегов', 'хештегов'
+      )}, `
+    },
+    {
+      check: inputArray.some((item) => /^#[a-zа-яё0-9]{1,19}$/i.test(item)),
+      error: 'Хэштег содержит недопустимые символы',
+    },
+  ];
+
+  return rules.every((rule) => {
+    const isInvalid = rule.check;
+    if (isInvalid) {
+      errorMessaga = rule.error;
+    }
+    return !isInvalid;
+  });
+};
+
+
+pristine.addValidator(commentInput, (value) => {
+  const symbolCount = value.length <= 140;
+  return symbolCount;
+}, 'Длина вашего комментраия не должна быть больше 140 символов');
+
+pristine.addValidator(hashtagInput, isHashtagsValid, error, false);
+
+initUploadModal();
+isHashtagsValid();
+error();
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
+
