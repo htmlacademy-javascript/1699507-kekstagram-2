@@ -20,15 +20,14 @@ const onPhotoEditorResetBtnClick = () => {
 };
 
 const onDocumentKeydown = (evt) => {
-  if (onEscKeydown(evt)) {
-    evt.preventDefault();
+  onEscKeydown(evt, () => {
     if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
       evt.stopPropagation();
     } else {
-      form.requestFullscreen();
+      form.reset();
       closePhotoEditor();
     }
-  }
+  });
 };
 
 function closePhotoEditor () {
@@ -60,7 +59,7 @@ const isHashtagsValid = (value) => {
 
   const inputText = value.toLowerCase().trim();
 
-  if (inputText === 0) {
+  if (inputText.length === 0) {
     return true;
   }
 
@@ -94,7 +93,7 @@ const isHashtagsValid = (value) => {
       )}, `
     },
     {
-      check: inputArray.some((item) => /^#[a-zа-яё0-9]{1,19}$/i.test(item)),
+      check: inputArray.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
       error: 'Хэштег содержит недопустимые символы',
     },
   ];
@@ -109,18 +108,13 @@ const isHashtagsValid = (value) => {
 };
 
 
-pristine.addValidator(commentInput, (value) => {
-  const symbolCount = value.length <= 140;
-  return symbolCount;
-}, 'Длина вашего комментраия не должна быть больше 140 символов');
+pristine.addValidator(commentInput, (value) => value.length <= 140, 'Длина вашего комментраия не должна быть больше 140 символов');
 
 pristine.addValidator(hashtagInput, isHashtagsValid, error, false);
-
-initUploadModal();
-error();
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
 
+initUploadModal();
