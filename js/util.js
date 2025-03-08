@@ -24,4 +24,4 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
     : genitiveSingular;
 };
 
-export {getRandomArrayElement, getRandomInteger, onEscKeydown};
+export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline};

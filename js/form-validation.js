@@ -1,5 +1,5 @@
 import { onEscKeydown } from './util.js';
-// import { numDecline } from './util.js';
+import { numDecline } from './util.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAG = 5;
@@ -77,7 +77,7 @@ const isHashtagsValid = (value) => {
     },
     {
       check: inputArray.some((item) => item[0] !== '#'),
-      error: 'Хештег должен начинаться с символа',
+      error: 'Хештег должен начинаться с символа #',
     },
     {
       check: inputArray.some((item, num, array) => array.includes(item, num + 1)),
@@ -117,7 +117,6 @@ pristine.addValidator(commentInput, (value) => {
 pristine.addValidator(hashtagInput, isHashtagsValid, error, false);
 
 initUploadModal();
-isHashtagsValid();
 error();
 
 form.addEventListener('submit', (evt) => {
