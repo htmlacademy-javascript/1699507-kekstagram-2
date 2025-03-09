@@ -1,40 +1,29 @@
 import { photoEditorForm } from './form-validation';
 
-//Шаг зума
 const ZoomStep = {
   MAX: 100,
   MIN: 25,
   STEP: 25,
 };
 
-//ищем кнопки
-const plusButton = photoEditorForm.querySelector('.scale__control--bigger');
-const minusButton = photoEditorForm.querySelector('.scale__control--smaller');
-//ищем значение
-const scaleValue = photoEditorForm.querySelector('.scale__control--value');
-//ищем картинку
-const imageThumbnail = photoEditorForm.querySelector('.img-upload__preview img');
+//Группируем связанные элементы в одном объекты
+const controls = {
+  plusButton: photoEditorForm.querySelector('.scale__control--bigger'),
+  minusButton: photoEditorForm.querySelector('.scale__control--smaller'),
+  scaleValue: photoEditorForm.querySelector('.scale__control--value'),
+  image: photoEditorForm.querySelector('.img-upload__preview img'),
+};
 
-plusButton.addEventListener('click', () => {
-  let scale = parseInt(scaleValue.value, 10) + ZoomStep.STEP;
+//Функция масштабирования
+const updateScale = (direction) => {
+  const currentValue = parseInt(controls.scaleValue.value, 10);
+  let newValue = currentValue + (ZoomStep.STEP * direction);
 
-  if (scale >= ZoomStep.MAX) {
-    scale = ZoomStep.MAX;
-  }
+  newValue = Math.max(ZoomStep.MIN, Math.min(newValue, ZoomStep.MAX));
 
-  scaleValue.value = `${scale }%`;
-  scale = scale / 100;
-  imageThumbnail.style.transform = `scale(${ scale })`;
-});
+  controls.scaleValue.value = `${newValue}%`;
+  controls.image.style.transform = `scale(${newValue / 100})`;
+};
 
-minusButton.addEventListener('click', () => {
-  let scale = parseInt(scaleValue.value, 10) - ZoomStep.STEP;
-
-  if (scale <= ZoomStep.MIN) {
-    scale = ZoomStep.MIN;
-  }
-
-  scaleValue.value = `${scale }%`;
-  scale = scale / 100;
-  imageThumbnail.style.transform = `scale(${ scale })`;
-});
+controls.plusButton.addEventListener('click', () => updateScale(1));
+controls.minusButton.addEventListener('click', () => updateScale(-1));
