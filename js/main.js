@@ -4,6 +4,7 @@ import { renderPhotos } from './thumbnail.js';
 import { openFullThumbnail } from './full-thumbnail.js';
 import './render-comments.js';
 import './form-validation.js';
+import './zoom-effect.js';
 
 renderPhotos(addPhoto());
 
