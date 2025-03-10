@@ -119,4 +119,4 @@ form.addEventListener('submit', (evt) => {
 
 initUploadModal();
 
-export { photoEditorForm };
+export { photoEditorForm, form };
