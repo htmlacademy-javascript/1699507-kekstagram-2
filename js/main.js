@@ -6,6 +6,7 @@ import './render-comments.js';
 import './form-validation.js';
 import './zoom-effect.js';
 import './effect-slider.js';
+import './load-photo.js';
 
 renderPhotos(addPhoto());
 
