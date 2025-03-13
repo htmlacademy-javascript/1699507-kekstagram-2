@@ -1,5 +1,7 @@
+import { resetEffects } from './effect-slider.js';
 import { onEscKeydown } from './util.js';
 import { numDecline } from './util.js';
+import { resetScale } from './zoom-effect.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAG = 5;
@@ -31,11 +33,15 @@ const onDocumentKeydown = (evt) => {
 };
 
 function closePhotoEditor () {
+  resetScale();
+  resetEffects();
+
   photoEditorForm.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
   uploadFileControl.value = '';
+  form.reset();
 }
 
 const initUploadModal = () => {
@@ -118,3 +124,4 @@ form.addEventListener('submit', (evt) => {
 });
 
 initUploadModal();
+
