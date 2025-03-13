@@ -1,6 +1,6 @@
 import { EffectConfig } from './effect-config.js';
-import { form } from './form-validation.js';
 
+const form = document.querySelector('.img-upload__form');
 const imagePreview = form.querySelector('.img-upload__preview img');
 const effectLevel = form.querySelector('.effect-level__value');
 const effectSliderContainer = form.querySelector('.img-upload__effect-level');
@@ -73,5 +73,20 @@ effectsList.addEventListener('change', (evt) => {
   }
 });
 
+//Функция сброса эффектов
+const resetEffects = () => {
+  currentEffect = 'none';
+  imagePreview.style.filter = 'none';
+  effectLevel.value = '';
+  effectSliderContainer.classList.add('hidden');
+  effectsList.querySelector('#effect-none').checked = true;
+  effectSlider.noUiSlider.updateOptions({
+    range: { min: 0, max: 100 },
+    start: 100
+  });
+};
+
 // Инициализация состояния
 effectSliderContainer.classList.add('hidden');
+
+export { resetEffects };

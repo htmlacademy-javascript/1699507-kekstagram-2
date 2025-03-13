@@ -1,4 +1,3 @@
-import { photoEditorForm } from './form-validation';
 //Шаг зума
 const ZoomStep = {
   MAX: 100,
@@ -7,6 +6,8 @@ const ZoomStep = {
 };
 
 //Группируем связанные элементы в одном объекты
+const form = document.querySelector('.img-upload__form');
+const photoEditorForm = form.querySelector('.img-upload__overlay');
 const controls = {
   plusButton: photoEditorForm.querySelector('.scale__control--bigger'),
   minusButton: photoEditorForm.querySelector('.scale__control--smaller'),
@@ -28,6 +29,14 @@ const updateScale = (direction) => {
   controls.image.style.transform = `scale(${newValue / 100})`;
 };
 
+//Сброс масштаба
+const resetScale = () => {
+  controls.scaleValue.value = '100%';
+  controls.image.style.transform = 'scale(1.00)';
+};
+
 //Обработчики событий
 controls.plusButton.addEventListener('click', () => updateScale(1));
 controls.minusButton.addEventListener('click', () => updateScale(-1));
+
+export { resetScale };
