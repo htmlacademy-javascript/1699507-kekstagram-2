@@ -32,5 +32,4 @@ loadPhotos()
     loadedPhotos = photos;
     renderPhotos(photos);
     initGallery();
-  })
-  .catch(() => showDataError());
+  }).catch(() => showDataError());
