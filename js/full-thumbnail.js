@@ -1,4 +1,3 @@
-import { photos } from './data.js';
 import { onEscKeydown } from './util.js';
 import { clearComments, renderComments } from './render-comments.js';
 
@@ -24,7 +23,7 @@ function closefullThumbnail() {
   document.removeEventListener('keydown', closeOnDocumentEscape);
 }
 
-const openFullThumbnail = (pictureId) => {
+const openFullThumbnail = (pictureId, photos) => {
   const currentPhoto = photos.find((photo) => photo.id === Number(pictureId));
 
   fullThumbnailImgNode.src = currentPhoto.url;
