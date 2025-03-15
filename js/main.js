@@ -7,6 +7,7 @@ import './zoom-effect.js';
 import './effect-slider.js';
 import './load-photo.js';
 import { loadPhotos } from './api.js';
+import { configFilter } from './sorting.js';
 
 let loadedPhotos = [];
 
@@ -31,4 +32,5 @@ loadPhotos().then((photos) => {
   loadedPhotos = photos;
   renderPhotos(photos);
   initGallery();
+  configFilter(photos);
 }).catch(() => showDataError());
