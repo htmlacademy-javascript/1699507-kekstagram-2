@@ -27,9 +27,8 @@ const showDataError = () => {
   setTimeout(() => errorElement.remove(), 5000);
 };
 
-loadPhotos()
-  .then((photos) => {
-    loadedPhotos = photos;
-    renderPhotos(photos);
-    initGallery();
-  }).catch(() => showDataError());
+loadPhotos().then((photos) => {
+  loadedPhotos = photos;
+  renderPhotos(photos);
+  initGallery();
+}).catch(() => showDataError());
