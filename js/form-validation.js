@@ -2,6 +2,7 @@ import { resetEffects } from './effect-slider.js';
 import { onEscKeydown } from './util.js';
 import { numDecline } from './util.js';
 import { resetScale } from './zoom-effect.js';
+import { sendData } from './api.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAG = 5;
@@ -16,6 +17,8 @@ const photoEditorResetBtn = photoEditorForm.querySelector('#upload-cancel');
 
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
+
+const submitButton = form.querySelector('#upload-submit');
 
 const onPhotoEditorResetBtnClick = () => {
   closePhotoEditor();
@@ -121,6 +124,66 @@ pristine.addValidator(hashtagInput, isHashtagsValid, error, false);
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
+});
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const showSuccess = () => {
+  const template = document.querySelector('#success').content.cloneNode(true);
+  const successElement = template.querySelector('.success');
+  document.body.append(successElement);
+
+  const onDocumentClick = (evt) => {
+    if (!evt.target.closest('.success__inner')) {
+      successElement.remove();
+      document.removeEventListener('click', onDocumentClick);
+    }
+  };
+
+  successElement.querySelector('.success__button').addEventListener('click', () => successElement.remove());
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onEscKeydown(() => successElement.remove()));
+};
+
+const showError = () => {
+  const template = document.querySelector('#error').content.cloneNode(true);
+  const errorElement = template.querySelector('.error');
+  document.body.append(errorElement);
+
+  const onDocumentClick = (evt) => {
+    if (!evt.target.closest('.error__inner')) {
+      errorElement.remove();
+      document.removeEventListener('click', onDocumentClick);
+    }
+  };
+
+  errorElement.querySelector('.error__button').addEventListener('click', () => errorElement.remove());
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onEscKeydown(() => errorElement.remove()));
+};
+
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+
+  if (isValid) {
+    blockSubmitButton();
+    sendData(new FormData(form))
+      .then(() => {
+        closePhotoEditor();
+        showSuccess();
+      })
+      .catch(showError)
+      .finally(unblockSubmitButton);
+  }
 });
 
 initUploadModal();
