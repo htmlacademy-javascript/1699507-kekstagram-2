@@ -28,7 +28,7 @@ const closePhotoEditor = () => {
   resetScale();
   resetEffects();
   toggleFormState();
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', onFormEscapeKeydown);
   photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
   uploadFileControl.value = '';
   form.reset();
