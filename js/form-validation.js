@@ -150,13 +150,13 @@ const showSuccess = () => {
     }
   };
 
+  const onDocumentKDown = (evt) => {
+    onEscKeydown(evt, () => message.remove());
+  };
+
   message.querySelector('.success__button').addEventListener('click', () => message.remove());
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKDown);
-};
-
-const onDocumentKDown = (evt) => {
-  onEscKeydown(evt, () => message.remove());
 };
 
 const showError = () => {
