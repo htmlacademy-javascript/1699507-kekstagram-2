@@ -6,7 +6,7 @@ import { sendData } from './api.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAG = 5;
-let errorMessaga = '';
+let errorMessage = '';
 
 const form = document.querySelector('.img-upload__form');
 const pageBody = document.querySelector('body');
@@ -64,9 +64,9 @@ const pristine = new Pristine(form, {
   errorClass: 'img-upload__field-wrapper--error',
 });
 
-const error = () => errorMessaga;
+const error = () => errorMessage;
 const isHashtagsValid = (value) => {
-  errorMessaga = '';
+  errorMessage = '';
 
   const inputText = value.toLowerCase().trim();
 
@@ -112,7 +112,7 @@ const isHashtagsValid = (value) => {
   return rules.every((rule) => {
     const isInvalid = rule.check;
     if (isInvalid) {
-      errorMessaga = rule.error;
+      errorMessage = rule.error;
     }
     return !isInvalid;
   });
@@ -161,7 +161,7 @@ const onDocumentKDown = (evt) => {
 
 const showError = () => {
   const template = document.querySelector('#error').content.cloneNode(true);
-  const message = template.querySelector('.error');
+  message = template.querySelector('.error');
   document.body.append(message);
 
   const onDocumentClick = (evt) => {
