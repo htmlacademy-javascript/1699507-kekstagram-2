@@ -22,6 +22,18 @@ const submitButton = form.querySelector('#upload-submit');
 //Общая переменная для сообщений успеха и неуспеха
 let message = null;
 
+const closePhotoEditor = () => {
+  resetScale();
+  resetEffects();
+
+  photoEditorForm.classList.add('hidden');
+  pageBody.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
+  uploadFileControl.value = '';
+  form.reset();
+};
+
 const onPhotoEditorResetBtnClick = () => {
   closePhotoEditor();
 };
@@ -36,18 +48,6 @@ const onDocumentKeydown = (evt) => {
     }
   });
 };
-
-function closePhotoEditor () {
-  resetScale();
-  resetEffects();
-
-  photoEditorForm.classList.add('hidden');
-  pageBody.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
-  uploadFileControl.value = '';
-  form.reset();
-}
 
 const initUploadModal = () => {
   uploadFileControl.addEventListener('change', () => {
