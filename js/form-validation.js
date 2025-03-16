@@ -35,7 +35,7 @@ const closePhotoEditor = () => {
 };
 
 // Общая логика сообщений
-const createMessageHandler = (templateId, closeCallback) => {
+const createMessageHandler = (templateId) => {
   const template = document.querySelector(`#${templateId}`).content.cloneNode(true);
   message = template.querySelector(`.${templateId}`);
   document.body.append(message);
@@ -60,9 +60,6 @@ const createMessageHandler = (templateId, closeCallback) => {
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKeyDown);
 
-  if (closeCallback) {
-    closeCallback();
-  }
 };
 
 // Обработчики событий
@@ -70,7 +67,7 @@ function onPhotoEditorResetBtnClick () {
   closePhotoEditor();
 }
 
-function onDocumentKeydown(evt) {
+function onFormEscapeKeydown(evt) {
   onEscKeydown(evt, () => {
     if (![hashtagInput, commentInput].includes(document.activeElement)) {
       closePhotoEditor();
@@ -150,7 +147,7 @@ const initFormValidation = () => {
   uploadFileControl.addEventListener('change', () => {
     toggleFormState();
     photoEditorResetBtn.addEventListener('click', onPhotoEditorResetBtnClick);
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', onFormEscapeKeydown);
   });
 };
 
