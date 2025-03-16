@@ -19,6 +19,8 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 
 const submitButton = form.querySelector('#upload-submit');
+//Общая переменная для сообщений успеха и неуспеха
+let message = null;
 
 const onPhotoEditorResetBtnClick = () => {
   closePhotoEditor();
@@ -138,36 +140,40 @@ const unblockSubmitButton = () => {
 
 const showSuccess = () => {
   const template = document.querySelector('#success').content.cloneNode(true);
-  const successElement = template.querySelector('.success');
-  document.body.append(successElement);
+  message = template.querySelector('.success');
+  document.body.append(message);
 
   const onDocumentClick = (evt) => {
     if (!evt.target.closest('.success__inner')) {
-      successElement.remove();
+      message.remove();
       document.removeEventListener('click', onDocumentClick);
     }
   };
 
-  successElement.querySelector('.success__button').addEventListener('click', () => successElement.remove());
+  message.querySelector('.success__button').addEventListener('click', () => message.remove());
   document.addEventListener('click', onDocumentClick);
-  document.addEventListener('keydown', onEscKeydown(() => successElement.remove()));
+  document.addEventListener('keydown', onDocumentKDown);
+};
+
+const onDocumentKDown = (evt) => {
+  onEscKeydown(evt, () => message.remove());
 };
 
 const showError = () => {
   const template = document.querySelector('#error').content.cloneNode(true);
-  const errorElement = template.querySelector('.error');
-  document.body.append(errorElement);
+  const message = template.querySelector('.error');
+  document.body.append(message);
 
   const onDocumentClick = (evt) => {
     if (!evt.target.closest('.error__inner')) {
-      errorElement.remove();
+      message.remove();
       document.removeEventListener('click', onDocumentClick);
     }
   };
 
-  errorElement.querySelector('.error__button').addEventListener('click', () => errorElement.remove());
+  message.querySelector('.error__button').addEventListener('click', () => message.remove());
   document.addEventListener('click', onDocumentClick);
-  document.addEventListener('keydown', onEscKeydown(() => errorElement.remove()));
+  document.addEventListener('keydown', onDocumentKDown);
 };
 
 form.addEventListener('submit', (evt) => {

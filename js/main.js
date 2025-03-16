@@ -9,14 +9,14 @@ import './load-photo.js';
 import { loadPhotos } from './api.js';
 import { configFilter } from './sorting.js';
 
-let loadedPhotos = [];
+const initGallery = (photos) => {
+  document.querySelector('.pictures').addEventListener('click', (evt) => {
+    const picture = evt.target.closest('[data-picture-id]');
 
-const initGallery = () => {
-  document.querySelectorAll('.pictures .picture').forEach((item) => {
-    item.addEventListener('click', (evt) => {
+    if (picture) {
       evt.preventDefault();
-      openFullThumbnail(item.dataset.pictureId, loadedPhotos);
-    });
+      openFullThumbnail(picture.dataset.pictureId, photos);
+    }
   });
 };
 
@@ -29,8 +29,7 @@ const showDataError = () => {
 };
 
 loadPhotos().then((photos) => {
-  loadedPhotos = photos;
   renderPhotos(photos);
-  initGallery();
+  initGallery(photos);
   configFilter(photos);
 }).catch(() => showDataError());
