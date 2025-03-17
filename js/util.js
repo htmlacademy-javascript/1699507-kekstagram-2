@@ -24,4 +24,14 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
     : genitiveSingular;
 };
 
-export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline};
+//Функция устранения дребезга
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce};
