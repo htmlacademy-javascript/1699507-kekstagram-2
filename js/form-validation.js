@@ -28,7 +28,7 @@ const closePhotoEditor = () => {
   resetScale();
   resetEffects();
   toggleFormState();
-  document.removeEventListener('keydown', onFormEscapeKeydown);
+  document.removeEventListener('keydown', onDocumentEscKeydown);
   photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
   uploadFileControl.value = '';
   form.reset();
@@ -67,7 +67,7 @@ function onPhotoEditorResetBtnClick () {
   closePhotoEditor();
 }
 
-function onFormEscapeKeydown(evt) {
+function onDocumentEscKeydown(evt) {
   onEscKeydown(evt, () => {
     if (![hashtagInput, commentInput].includes(document.activeElement)) {
       closePhotoEditor();
@@ -147,7 +147,7 @@ const initFormValidation = () => {
   uploadFileControl.addEventListener('change', () => {
     toggleFormState();
     photoEditorResetBtn.addEventListener('click', onPhotoEditorResetBtnClick);
-    document.addEventListener('keydown', onFormEscapeKeydown);
+    document.addEventListener('keydown', onDocumentEscKeydown);
   });
 };
 
