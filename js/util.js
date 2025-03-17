@@ -1,3 +1,5 @@
+const DEBOUNCE_DELAY = 500;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -25,7 +27,7 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
 };
 
 //Функция устранения дребезга
-function debounce (callback, timeoutDelay = 500) {
+function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   let timeoutId;
 
   return (...rest) => {
