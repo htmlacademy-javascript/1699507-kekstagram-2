@@ -15,6 +15,7 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const submitButton = form.querySelector('#upload-submit');
 
+let pristine;
 let errorMessage = '';
 let message = null;
 
@@ -31,6 +32,7 @@ const closePhotoEditor = () => {
   resetEffects();
   //Переключение состояний формы
   toggleFormState();
+  pristine.reset();
   //Удаление обработчиков события
   document.removeEventListener('keydown', onDocumentEscKeydown);
   photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
@@ -118,7 +120,7 @@ const validateHashtags = (value) => {
 
 // Инициализация
 const initFormValidation = () => {
-  const pristine = new Pristine(form, {
+  pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
     errorClass: 'img-upload__field-wrapper--error',
