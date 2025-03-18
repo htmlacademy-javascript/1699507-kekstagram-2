@@ -54,9 +54,12 @@ const createMessageHandler = (templateId) => {
   document.body.append(message);
 
   const removeMessage = () => {
-    message.remove();
-    document.removeEventListener('click', onDocumentClick);
-    document.removeEventListener('keydown', onDocumentKeyDown);
+    if (message) { // Проверяем, существует ли message
+      message.remove();
+      document.removeEventListener('click', onDocumentClick);
+      document.removeEventListener('keydown', onDocumentKeyDown);
+      message = null; // Сбрасываем переменную message
+    }
   };
 
   function onDocumentClick(evt) {
@@ -65,27 +68,34 @@ const createMessageHandler = (templateId) => {
     }
   }
 
-  function onDocumentKeyDown(evt){
+  function onDocumentKeyDown(evt) {
     onEscKeydown(evt, removeMessage);
   }
 
   message.querySelector(`.${templateId}__button`).addEventListener('click', removeMessage);
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKeyDown);
-
 };
 
 // Обработчики событий
-function onPhotoEditorResetBtnClick () {
+function onPhotoEditorResetBtnClick() {
   closePhotoEditor();
 }
 
 function onDocumentEscKeydown(evt) {
-  if (evt.key === 'Escape') {
-    // Закрываем форму только если она открыта и есть ошибка
-    if (!photoEditorForm.classList.contains('hidden') && errorMessage) {
-      closePhotoEditor();
-    }
+  if (message) {
+    // Если есть сообщение об ошибке, закрываем его
+    onEscKeydown(evt, () => {
+      message.remove();
+      message = null; // Сбрасываем переменную message
+    });
+  } else {
+    // Если сообщения нет, закрываем форму
+    onEscKeydown(evt, () => {
+      if (![hashtagInput, commentInput].includes(document.activeElement)) {
+        closePhotoEditor();
+      }
+    });
   }
 }
 
@@ -119,7 +129,7 @@ const validateHashtags = (value) => {
   });
 };
 
-// Инициализация
+
 const initFormValidation = () => {
   pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
@@ -138,6 +148,7 @@ const initFormValidation = () => {
     false
   );
 
+  // Валидация и отправка формы
   form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
 
@@ -150,7 +161,7 @@ const initFormValidation = () => {
         closePhotoEditor();
         createMessageHandler('success');
       } catch {
-        createMessageHandler('error');
+        createMessageHandler('error'); // Создаем сообщение об ошибке
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = 'Опубликовать';
