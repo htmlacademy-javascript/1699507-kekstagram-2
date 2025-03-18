@@ -144,8 +144,6 @@ const initFormValidation = () => {
       submitButton.disabled = true;
       submitButton.textContent = 'Публикую...';
 
-      console.log('Форма прошла валидацию, отправка данных...');
-
       try {
         await sendData(new FormData(form));
         closePhotoEditor();
@@ -156,8 +154,6 @@ const initFormValidation = () => {
         submitButton.disabled = false;
         submitButton.textContent = 'Опубликовать';
       }
-    } else {
-      console.log('Форма не прошла валидацию');
     }
   });
 
