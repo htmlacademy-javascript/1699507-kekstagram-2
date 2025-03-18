@@ -7,23 +7,21 @@ const uploadPreview = uploadPreviewContainer.querySelector('img');
 const previews = document.querySelectorAll('.effects__preview');
 
 uploadFile.addEventListener('change', () => {
-
   const file = uploadFile.files[0];
   const fileName = file.name.toLowerCase();
 
   const matches = TYPES_FILE.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    const reader = new FileReader();
+    // Создаем blob: URL
+    const blobUrl = URL.createObjectURL(file);
 
-    reader.addEventListener('load', () => {
-      uploadPreview.src = reader.result;
+    // Устанавливаем blob: URL в src изображения
+    uploadPreview.src = blobUrl;
 
-      previews.forEach((filter) => {
-        filter.style.backgroundImage = `url(${reader.result})`;
-      });
+    // Устанавливаем blob: URL в background-image для превью эффектов
+    previews.forEach((filter) => {
+      filter.style.backgroundImage = `url(${blobUrl})`;
     });
-
-    reader.readAsDataURL(file);
   }
 });

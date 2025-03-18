@@ -18,19 +18,30 @@ const submitButton = form.querySelector('#upload-submit');
 let errorMessage = '';
 let message = null;
 
-// Общие функции для работы с формой
+// Общие функции для работы с формой.
 const toggleFormState = () => {
   photoEditorForm.classList.toggle('hidden');
   pageBody.classList.toggle('modal-open');
 };
 
 const closePhotoEditor = () => {
+  //Сброс масштаба
   resetScale();
+  //Сброс эффектов
   resetEffects();
+  //Переключение состояний формы
   toggleFormState();
+  //Удаление обработчиков события
   document.removeEventListener('keydown', onDocumentEscKeydown);
   photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
+  //Сброс значения поля загрузки файла
   uploadFileControl.value = '';
+
+  // Освобождаем blob: URL
+  const uploadPreview = document.querySelector('.img-upload__preview img');
+  if (uploadPreview.src.startsWith('blob:')) {
+    URL.revokeObjectURL(uploadPreview.src);
+  }
   form.reset();
 };
 
@@ -131,6 +142,8 @@ const initFormValidation = () => {
       submitButton.disabled = true;
       submitButton.textContent = 'Публикую...';
 
+      console.log('Форма прошла валидацию, отправка данных...');
+
       try {
         await sendData(new FormData(form));
         closePhotoEditor();
@@ -141,6 +154,8 @@ const initFormValidation = () => {
         submitButton.disabled = false;
         submitButton.textContent = 'Опубликовать';
       }
+    } else {
+      console.log('Форма не прошла валидацию');
     }
   });
 

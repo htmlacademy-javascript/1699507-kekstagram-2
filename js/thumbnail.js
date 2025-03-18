@@ -2,11 +2,13 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const photosList = document.querySelector('.pictures');
 
 
-const renderPhoto = ({id, url, likes, comments }) => {
+const renderPhoto = ({ id, url, likes, comments, description }) => {
   const photoPreview = pictureTemplate.cloneNode(true);
 
   photoPreview.dataset.pictureId = id;
-  photoPreview.querySelector('.picture__img').src = url;
+  const imgElement = photoPreview.querySelector('.picture__img');
+  imgElement.src = url;
+  imgElement.alt = description;
   photoPreview.querySelector('.picture__likes').textContent = likes;
   photoPreview.querySelector('.picture__comments').textContent = comments.length;
 
