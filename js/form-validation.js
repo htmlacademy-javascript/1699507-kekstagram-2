@@ -81,11 +81,12 @@ function onPhotoEditorResetBtnClick () {
 }
 
 function onDocumentEscKeydown(evt) {
-  onEscKeydown(evt, () => {
-    if (![hashtagInput, commentInput].includes(document.activeElement)) {
+  if (evt.key === 'Escape') {
+    // Закрываем форму только если она открыта и есть ошибка
+    if (!photoEditorForm.classList.contains('hidden') && errorMessage) {
       closePhotoEditor();
     }
-  });
+  }
 }
 
 // Валидация

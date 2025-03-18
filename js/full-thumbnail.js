@@ -12,7 +12,12 @@ function onFullThumbnailCancelClick() {
 }
 
 const onDocumentEscape = (evt) => {
-  onEscKeydown(evt, closefullThumbnail);
+  if (evt.key === 'Escape') {
+    // Закрываем окно загрузки картинки только если оно открыто
+    if (!fullThumbnail.classList.contains('hidden')) {
+      closefullThumbnail();
+    }
+  }
 };
 
 function closefullThumbnail() {
