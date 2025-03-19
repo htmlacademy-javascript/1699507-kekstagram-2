@@ -7,6 +7,8 @@ const FILTER = {
   discussed: 'filter-discussed',
 };
 
+const DEBOUNCE_TIME_DELAY = 500;
+
 const MAX_PICTURE_COUNT = 10;
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
@@ -14,7 +16,7 @@ const filterElement = document.querySelector('.img-filters');
 let currentFilter = FILTER.default;
 let pictures = [];
 
-const debouncedRender = debounce(renderPhotos, 500);
+const debouncedRender = debounce(renderPhotos, DEBOUNCE_TIME_DELAY);
 
 function onFilterChange(evt) {
   const targetButton = evt.target;
