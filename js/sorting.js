@@ -1,13 +1,11 @@
 import { renderPhotos } from './thumbnail.js';
-import { debounce } from './util.js';
+import { debounce, DEBOUNCE_DELAY } from './util.js';
 
 const FILTER = {
   default: 'filter-default',
   random: 'filter-random',
   discussed: 'filter-discussed',
 };
-
-const DEBOUNCE_TIME_DELAY = 500;
 
 const MAX_PICTURE_COUNT = 10;
 
@@ -16,7 +14,7 @@ const filterElement = document.querySelector('.img-filters');
 let currentFilter = FILTER.default;
 let pictures = [];
 
-const debouncedRender = debounce(renderPhotos, DEBOUNCE_TIME_DELAY);
+const debouncedRender = debounce(renderPhotos, DEBOUNCE_DELAY);
 
 function onFilterChange(evt) {
   const targetButton = evt.target;

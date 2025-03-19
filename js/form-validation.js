@@ -6,14 +6,14 @@ import { sendData } from './api.js';
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAG = 5;
 
-const form = document.querySelector('.img-upload__form');
-const pageBody = document.querySelector('body');
-const uploadFileControl = form.querySelector('#upload-file');
-const photoEditorForm = form.querySelector('.img-upload__overlay');
-const photoEditorResetBtn = photoEditorForm.querySelector('#upload-cancel');
-const hashtagInput = form.querySelector('.text__hashtags');
-const commentInput = form.querySelector('.text__description');
-const submitButton = form.querySelector('#upload-submit');
+const formElement = document.querySelector('.img-upload__form');
+const pageBodyElement = document.querySelector('body');
+const uploadFileControlElement = formElement.querySelector('#upload-file');
+const photoEditorFormElement = formElement.querySelector('.img-upload__overlay');
+const photoEditorResetBtnElement = photoEditorFormElement.querySelector('#upload-cancel');
+const hashtagInputElement = formElement.querySelector('.text__hashtags');
+const commentInputElement = formElement.querySelector('.text__description');
+const submitButtonElement = formElement.querySelector('#upload-submit');
 
 let pristine;
 let errorMessage = '';
@@ -21,30 +21,30 @@ let message = null;
 
 // Общие функции для работы с формой.
 const toggleFormState = () => {
-  photoEditorForm.classList.toggle('hidden');
-  pageBody.classList.toggle('modal-open');
+  photoEditorFormElement.classList.toggle('hidden');
+  pageBodyElement.classList.toggle('modal-open');
 };
 
 const closePhotoEditor = () => {
-  //Сброс масштаба
+  // Сброс масштаба
   resetScale();
-  //Сброс эффектов
+  // Сброс эффектов
   resetEffects();
-  //Переключение состояний формы
+  // Переключение состояний формы
   toggleFormState();
   pristine.reset();
-  //Удаление обработчиков события
+  // Удаление обработчиков события
   document.removeEventListener('keydown', onDocumentEscKeydown);
-  photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
-  //Сброс значения поля загрузки файла
-  uploadFileControl.value = '';
+  photoEditorResetBtnElement.removeEventListener('click', onPhotoEditorResetBtnClick);
+  // Сброс значения поля загрузки файла
+  uploadFileControlElement.value = '';
 
   // Освобождаем blob: URL
-  const uploadPreview = document.querySelector('.img-upload__preview img');
-  if (uploadPreview.src.startsWith('blob:')) {
-    URL.revokeObjectURL(uploadPreview.src);
+  const uploadPreviewElement = document.querySelector('.img-upload__preview img');
+  if (uploadPreviewElement.src.startsWith('blob:')) {
+    URL.revokeObjectURL(uploadPreviewElement.src);
   }
-  form.reset();
+  formElement.reset();
 };
 
 // Общая логика сообщений
@@ -92,7 +92,7 @@ function onDocumentEscKeydown(evt) {
   } else {
     // Если сообщения нет, закрываем форму
     onEscKeydown(evt, () => {
-      if (![hashtagInput, commentInput].includes(document.activeElement)) {
+      if (![hashtagInputElement, commentInputElement].includes(document.activeElement)) {
         closePhotoEditor();
       }
     });
@@ -129,49 +129,49 @@ const validateHashtags = (value) => {
   });
 };
 
-
 const initFormValidation = () => {
-  pristine = new Pristine(form, {
+  pristine = new Pristine(formElement, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
     errorClass: 'img-upload__field-wrapper--error',
   });
 
-  pristine.addValidator(commentInput,
+  pristine.addValidator(commentInputElement,
     (value) => value.length <= 140,
     'Длина комментария не должна превышать 140 символов'
   );
 
-  pristine.addValidator(hashtagInput,
+  pristine.addValidator(hashtagInputElement,
     validateHashtags,
     () => errorMessage,
     false
   );
 
   // Валидация и отправка формы
-  form.addEventListener('submit', async (evt) => {
+  formElement.addEventListener('submit', async (evt) => {
     evt.preventDefault();
 
     if (pristine.validate()) {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Публикую...';
+      submitButtonElement.disabled = true;
+      submitButtonElement.textContent = 'Публикую...';
 
       try {
-        await sendData(new FormData(form));
+        await sendData(new FormData(formElement));
         closePhotoEditor();
         createMessageHandler('success');
       } catch {
-        createMessageHandler('error'); // Создаем сообщение об ошибке
+        // Создаем сообщение об ошибке
+        createMessageHandler('error');
       } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Опубликовать';
+        submitButtonElement.disabled = false;
+        submitButtonElement.textContent = 'Опубликовать';
       }
     }
   });
 
-  uploadFileControl.addEventListener('change', () => {
+  uploadFileControlElement.addEventListener('change', () => {
     toggleFormState();
-    photoEditorResetBtn.addEventListener('click', onPhotoEditorResetBtnClick);
+    photoEditorResetBtnElement.addEventListener('click', onPhotoEditorResetBtnClick);
     document.addEventListener('keydown', onDocumentEscKeydown);
   });
 };

@@ -14,7 +14,6 @@ const onEscKeydown = (evt, cb) => {
 };
 
 //Функция для получения случайного элемента массива
-
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
@@ -36,4 +35,4 @@ function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   };
 }
 
-export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce};
+export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};

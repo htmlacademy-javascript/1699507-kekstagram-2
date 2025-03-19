@@ -1,13 +1,14 @@
-//Массив допустимых расширений файлов для загрузки
+// Массив допустимых расширений файлов для загрузки
 const TYPES_FILE = ['jpg', 'jpeg', 'png'];
 
-const uploadFile = document.querySelector('#upload-file');
-const uploadPreviewContainer = document.querySelector('.img-upload__preview');
-const uploadPreview = uploadPreviewContainer.querySelector('img');
-const previews = document.querySelectorAll('.effects__preview');
+const uploadFileElement = document.querySelector('#upload-file');
+const uploadPreviewContainerElement = document.querySelector('.img-upload__preview');
+const uploadPreviewElement = uploadPreviewContainerElement.querySelector('img');
+const previewElements = document.querySelectorAll('.effects__preview');
 
-uploadFile.addEventListener('change', () => {
-  const file = uploadFile.files[0];
+// Обработчик изменения файла
+const onUploadFileChange = () => {
+  const file = uploadFileElement.files[0];
   const fileName = file.name.toLowerCase();
   const fileExt = fileName.split('.').pop();
   const matches = TYPES_FILE.includes(fileExt);
@@ -17,11 +18,14 @@ uploadFile.addEventListener('change', () => {
     const blobUrl = URL.createObjectURL(file);
 
     // Устанавливаем blob: URL в src изображения
-    uploadPreview.src = blobUrl;
+    uploadPreviewElement.src = blobUrl;
 
     // Устанавливаем blob: URL в background-image для превью эффектов
-    previews.forEach((filter) => {
-      filter.style.backgroundImage = `url(${blobUrl})`;
+    previewElements.forEach((previewElement) => {
+      previewElement.style.backgroundImage = `url(${blobUrl})`;
     });
   }
-});
+};
+
+// Добавляем обработчик события
+uploadFileElement.addEventListener('change', onUploadFileChange);
