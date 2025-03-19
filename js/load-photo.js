@@ -9,8 +9,8 @@ const previews = document.querySelectorAll('.effects__preview');
 uploadFile.addEventListener('change', () => {
   const file = uploadFile.files[0];
   const fileName = file.name.toLowerCase();
-
-  const matches = TYPES_FILE.some((it) => fileName.endsWith(it));
+  const fileExt = fileName.split('.').pop();
+  const matches = TYPES_FILE.includes(fileExt);
 
   if (matches) {
     // Создаем blob: URL

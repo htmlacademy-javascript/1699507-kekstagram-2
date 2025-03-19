@@ -1,9 +1,17 @@
 import { renderPhotos } from './thumbnail.js';
 import { debounce } from './util.js';
 
+const FILTER = {
+  default: 'filter-default',
+  random: 'filter-random',
+  discussed: 'filter-discussed',
+};
+
+const MAX_PICTURE_COUNT = 10;
+
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const filterElement = document.querySelector('.img-filters');
-let currentFilter = 'filter-default';
+let currentFilter = FILTER.default;
 let pictures = [];
 
 const debouncedRender = debounce(renderPhotos, 500);
@@ -26,14 +34,14 @@ function applyFilter() {
   let filteredPictures = [];
 
   switch (currentFilter) {
-    case 'filter-default':
-      filteredPictures = pictures;
+    case FILTER.default:
+      filteredPictures = pictures.slice();
       break;
-    case 'filter-random':
-      filteredPictures = pictures.toSorted(() => 0.5 - Math.random()).slice(0, 10);
+    case FILTER.random:
+      filteredPictures = pictures.slice().sort(() => 0.5 - Math.random()).slice(0, MAX_PICTURE_COUNT);
       break;
-    case 'filter-discussed':
-      filteredPictures = pictures.toSorted((a, b) => b.comments.length - a.comments.length);
+    case FILTER.discussed:
+      filteredPictures = pictures.slice().sort((a, b) => b.comments.length - a.comments.length);
       break;
   }
 
