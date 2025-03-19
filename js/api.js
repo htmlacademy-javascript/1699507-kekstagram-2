@@ -1,4 +1,4 @@
-const API_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const API_URL = 'https://31.javascript.htmlacademy.pro/kekstagram/';
 
 const loadPhotos = () => fetch(`${API_URL}/data`)
   .then((response) => {

@@ -11,7 +11,7 @@ function onFullThumbnailCancelClick() {
   closefullThumbnail();
 }
 
-const onDocumentEscape = (evt) => {
+const onDocumentEscKeydown = (evt) => {
   onEscKeydown(evt, closefullThumbnail);
 };
 
@@ -20,7 +20,7 @@ function closefullThumbnail() {
 
   fullThumbnail.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentEscape);
+  document.removeEventListener('keydown', onDocumentEscKeydown);
 }
 
 const openFullThumbnail = (pictureId, photos) => {
@@ -35,7 +35,7 @@ const openFullThumbnail = (pictureId, photos) => {
   fullThumbnail.classList.remove('hidden');
   document.body.classList.add('modal-open');
   fullThumbnailCancelNode.addEventListener('click', onFullThumbnailCancelClick);
-  document.addEventListener('keydown', onDocumentEscape);
+  document.addEventListener('keydown', onDocumentEscKeydown);
 };
 
 export { openFullThumbnail };
