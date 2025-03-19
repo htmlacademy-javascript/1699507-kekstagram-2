@@ -1,5 +1,8 @@
 import { EffectConfig } from './effect-config.js';
 
+const MAX_VALUE_SLIDER = 100;
+const MIN_VALUE_SLIDER = 0;
+
 const form = document.querySelector('.img-upload__form');
 const imagePreview = form.querySelector('.img-upload__preview img');
 const effectLevel = form.querySelector('.effect-level__value');
@@ -12,10 +15,10 @@ let currentEffect = 'none';
 // Инициализация слайдера
 noUiSlider.create(effectSlider, {
   range: {
-    min: 0,
-    max: 100,
+    min: MIN_VALUE_SLIDER,
+    max: MAX_VALUE_SLIDER,
   },
-  start: 100,
+  start: MAX_VALUE_SLIDER,
   step: 1,
   connect: 'lower',
   format: {
@@ -81,8 +84,8 @@ const resetEffects = () => {
   effectSliderContainer.classList.add('hidden');
   effectsList.querySelector('#effect-none').checked = true;
   effectSlider.noUiSlider.updateOptions({
-    range: { min: 0, max: 100 },
-    start: 100
+    range: { min: MIN_VALUE_SLIDER, max: MAX_VALUE_SLIDER },
+    start: MAX_VALUE_SLIDER
   });
 };
 
