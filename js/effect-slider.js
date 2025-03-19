@@ -92,4 +92,4 @@ const resetEffects = () => {
 // Инициализация состояния
 effectSliderContainer.classList.add('hidden');
 
-export { resetEffects };
+export { resetEffects, MAX_VALUE_SLIDER, MIN_VALUE_SLIDER};
