@@ -87,8 +87,7 @@ function onDocumentEscKeydown(evt) {
     // Если есть сообщение об ошибке, закрываем его
     onEscKeydown(evt, () => {
       message.remove();
-      // Сбрасываем переменную message
-      message = null;
+      message = null; // Сбрасываем переменную message
     });
   } else {
     // Если сообщения нет, закрываем форму
