@@ -22,7 +22,6 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
     : genitiveSingular;
 };
 
-//Функция устранения дребезга
 function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   let timeoutId;
 
