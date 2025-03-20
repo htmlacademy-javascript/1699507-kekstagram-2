@@ -54,11 +54,11 @@ const createMessageHandler = (templateId) => {
   document.body.append(message);
 
   const removeMessage = () => {
-    if (message) { // Проверяем, существует ли message
+    if (message) {
       message.remove();
       document.removeEventListener('click', onDocumentClick);
       document.removeEventListener('keydown', onDocumentKeyDown);
-      message = null; // Сбрасываем переменную message
+      message = null;
     }
   };
 
@@ -87,7 +87,7 @@ function onDocumentEscKeydown(evt) {
     // Если есть сообщение об ошибке, закрываем его
     onEscKeydown(evt, () => {
       message.remove();
-      message = null; // Сбрасываем переменную message
+      message = null;
     });
   } else {
     // Если сообщения нет, закрываем форму

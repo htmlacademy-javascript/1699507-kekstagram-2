@@ -59,8 +59,6 @@ const onSliderUpdate = (values, handle) => {
   applyEffect(currentEffect, value);
 };
 
-effectSliderElement.noUiSlider.on('update', onSliderUpdate);
-
 // Обработчик изменения эффекта
 const onEffectChange = (evt) => {
   if (evt.target.name === 'effect') {
@@ -79,8 +77,6 @@ const onEffectChange = (evt) => {
   }
 };
 
-effectsListElement.addEventListener('change', onEffectChange);
-
 // Функция сброса эффектов
 const resetEffects = () => {
   currentEffect = 'none';
@@ -94,7 +90,11 @@ const resetEffects = () => {
   });
 };
 
+effectSliderElement.noUiSlider.on('update', onSliderUpdate);
+
+effectsListElement.addEventListener('change', onEffectChange);
+
 // Инициализация состояния
 effectSliderContainerElement.classList.add('hidden');
 
-export { resetEffects, MAX_VALUE_SLIDER, MIN_VALUE_SLIDER };
+export { resetEffects };

@@ -13,11 +13,11 @@ const TIME_DELAY_ERROR_ELEMENT = 5000;
 
 const initGallery = (photos) => {
   document.querySelector('.pictures').addEventListener('click', (evt) => {
-    const picture = evt.target.closest('[data-picture-id]');
+    const pictureElement = evt.target.closest('[data-picture-id]');
 
-    if (picture) {
+    if (pictureElement) {
       evt.preventDefault();
-      openFullThumbnail(picture.dataset.pictureId, photos);
+      openFullThumbnail(pictureElement.dataset.pictureId, photos);
     }
   });
 };

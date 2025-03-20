@@ -1,56 +1,56 @@
-const STEP_COUNT_SLIDER = {
+const StepCountSlider = {
   stepMin: 0.1,
   stepMax: 1,
 };
 
-const FILTER_NAME = {
-  grayscale: 'grayscale',
-  sepia: 'sepia',
-  invert: 'invert',
-  blur: 'blur',
-  brightness: 'brightness',
+const FilterName = {
+  GRAYSCALE: 'grayscale',
+  SEPIA: 'sepia',
+  INVERT: 'invert',
+  BLUR: 'blur',
+  BRIGHTNESS: 'brightness',
 };
 
 const EffectConfig = {
   none: {
     min: 0,
     max: 100,
-    step: STEP_COUNT_SLIDER.stepMax,
+    step: StepCountSlider.stepMax,
     unit: '',
   },
   chrome: {
-    filter: FILTER_NAME.grayscale,
+    filter: FilterName.GRAYSCALE,
     min: 0,
-    max: STEP_COUNT_SLIDER.stepMax,
-    step: STEP_COUNT_SLIDER.stepMin,
+    max: StepCountSlider.stepMax,
+    step: StepCountSlider.stepMin,
     unit: '',
   },
   sepia: {
-    filter: FILTER_NAME.sepia,
+    filter: FilterName.SEPIA,
     min: 0,
     max: 1,
-    step: STEP_COUNT_SLIDER.stepMin,
+    step: StepCountSlider.stepMin,
     unit: '',
   },
   marvin: {
-    filter: FILTER_NAME.invert,
+    filter: FilterName.INVERT,
     min: 0,
     max: 100,
-    step: STEP_COUNT_SLIDER.stepMax,
+    step: StepCountSlider.stepMax,
     unit: '%',
   },
   phobos: {
-    filter: FILTER_NAME.blur,
+    filter: FilterName.BLUR,
     min: 0,
     max: 3,
-    step: STEP_COUNT_SLIDER.stepMin,
+    step: StepCountSlider.stepMin,
     unit: 'px',
   },
   heat: {
-    filter: FILTER_NAME.brightness,
+    filter: FilterName.BRIGHTNESS,
     min: 1,
     max: 3,
-    step: STEP_COUNT_SLIDER.stepMin,
+    step: StepCountSlider.stepMin,
     unit: '',
   },
 };

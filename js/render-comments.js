@@ -4,7 +4,7 @@ let comments = [];
 
 const fullThumbnailElement = document.querySelector('.big-picture');
 const socialCommentsElement = fullThumbnailElement.querySelector('.social__comments');
-const socialCommentTemplate = socialCommentsElement.querySelector('.social__comment');
+const socialCommentElement = socialCommentsElement.querySelector('.social__comment');
 const commentsCountElement = fullThumbnailElement.querySelector('.social__comment-count');
 const commentsLoaderElement = fullThumbnailElement.querySelector('.social__comments-loader');
 socialCommentsElement.innerHTML = '';
@@ -15,13 +15,13 @@ const renderNextComments = () => {
   const renderCommentsLength = renderedComments.length + currentCount;
 
   renderedComments.forEach((comment) => {
-    const socialCommentElement = socialCommentTemplate.cloneNode(true);
+    const socialCommentTemplate = socialCommentElement.cloneNode(true);
 
-    socialCommentElement.querySelector('.social__picture').src = comment.avatar;
-    socialCommentElement.querySelector('.social__picture').alt = comment.name;
-    socialCommentElement.querySelector('.social__text').textContent = comment.message;
+    socialCommentTemplate.querySelector('.social__picture').src = comment.avatar;
+    socialCommentTemplate.querySelector('.social__picture').alt = comment.name;
+    socialCommentTemplate.querySelector('.social__text').textContent = comment.message;
 
-    socialCommentsFragment.appendChild(socialCommentElement);
+    socialCommentsFragment.appendChild(socialCommentTemplate);
   });
 
   socialCommentsElement.appendChild(socialCommentsFragment);
