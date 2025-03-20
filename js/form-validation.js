@@ -53,7 +53,7 @@ const createMessageHandler = (templateId) => {
   message = template.querySelector(`.${templateId}`);
   document.body.append(message);
 
-  const removeMessage = () => {
+  const onMessageClose = () => {
     if (message) {
       message.remove();
       document.removeEventListener('click', onDocumentClick);
@@ -64,15 +64,15 @@ const createMessageHandler = (templateId) => {
 
   function onDocumentClick(evt) {
     if (!evt.target.closest(`.${templateId}__inner`)) {
-      removeMessage();
+      onMessageClose();
     }
   }
 
   function onDocumentKeyDown(evt) {
-    onEscKeydown(evt, removeMessage);
+    onEscKeydown(evt, onMessageClose);
   }
 
-  message.querySelector(`.${templateId}__button`).addEventListener('click', removeMessage);
+  message.querySelector(`.${templateId}__button`).addEventListener('click', onMessageClose);
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKeyDown);
 };
