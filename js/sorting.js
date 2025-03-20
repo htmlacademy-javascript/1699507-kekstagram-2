@@ -11,22 +11,28 @@ const MAX_PICTURE_COUNT = 10;
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const filterElement = document.querySelector('.img-filters');
-let currentFilter = Filter.default;
+let currentFilter = Filter.DEFAULT;
 let pictures = [];
 
 const debouncedRender = debounce(renderPhotos, DEBOUNCE_DELAY);
 
 function onFilterClick(evt) {
-  const targetButtonElement = evt.target;
-  const activeButton = document.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
-  if (!targetButtonElement.matches('button' || activeButton === targetButtonElement)) {
+  const targetButton = evt.target;
+
+  // Проверяем, что клик был по кнопке и это не текущий активный фильтр
+  if (!targetButton.matches('button') || targetButton.id === currentFilter) {
     return;
   }
 
-  activeButton.classList.toggle(ACTIVE_BUTTON_CLASS);
-  targetButtonElement.classList.toggle(ACTIVE_BUTTON_CLASS);
-  currentFilter = targetButtonElement.id;
+  // Убираем активный класс у текущей кнопки
+  const activeButton = document.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
+  activeButton.classList.remove(ACTIVE_BUTTON_CLASS);
 
+  // Добавляем активный класс к новой кнопке
+  targetButton.classList.add(ACTIVE_BUTTON_CLASS);
+  currentFilter = targetButton.id;
+
+  // Применяем фильтр
   applyFilter();
 }
 
