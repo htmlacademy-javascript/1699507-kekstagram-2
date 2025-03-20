@@ -35,4 +35,4 @@ function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   };
 }
 
-export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};
+export {getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};
