@@ -53,7 +53,7 @@ const createMessageHandler = (templateId) => {
   message = template.querySelector(`.${templateId}`);
   document.body.append(message);
 
-  const removeMessage = () => {
+  const onMessageClose = () => {
     if (message) {
       message.remove();
       document.removeEventListener('click', onDocumentClick);
@@ -64,15 +64,15 @@ const createMessageHandler = (templateId) => {
 
   function onDocumentClick(evt) {
     if (!evt.target.closest(`.${templateId}__inner`)) {
-      removeMessage();
+      onMessageClose();
     }
   }
 
   function onDocumentKeyDown(evt) {
-    onEscKeydown(evt, removeMessage);
+    onEscKeydown(evt, onMessageClose);
   }
 
-  message.querySelector(`.${templateId}__button`).addEventListener('click', removeMessage);
+  message.querySelector(`.${templateId}__button`).addEventListener('click', onMessageClose);
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKeyDown);
 };
@@ -108,17 +108,17 @@ const validateHashtags = (value) => {
     return true;
   }
 
-  const inputArray = inputText.split(/\s+/);
-  const uniqueHashtags = new Set(inputArray.map((item) => item.toLowerCase()));
+  const inputArrays = inputText.split(/\s+/);
+  const uniqueHashtags = new Set(inputArrays.map((item) => item.toLowerCase()));
 
   const validationRules = [
-    { check: inputArray.some((item) => item === '#'), error: 'Хештег не может состоять только из решетки' },
-    { check: inputArray.some((item) => item.slice(1).includes('#')), error: 'Хештеги разделяются пробелами' },
-    { check: inputArray.some((item) => !item.startsWith('#')), error: 'Хештег должен начинаться с символа #' },
-    { check: uniqueHashtags.size !== inputArray.length, error: 'Хештеги не должны повторяться' },
-    { check: inputArray.some((item) => item.length > MAX_SYMBOLS), error: 'Хештег не может быть больше 20 символов' },
-    { check: inputArray.length > MAX_HASHTAG, error: `Нельзя указать больше ${MAX_HASHTAG} ${numDecline(MAX_HASHTAG, 'хештега', 'хештегов', 'хештегов')}` },
-    { check: inputArray.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)), error: 'Хэштег содержит недопустимые символы' },
+    { check: inputArrays.some((item) => item === '#'), error: 'Хештег не может состоять только из решетки' },
+    { check: inputArrays.some((item) => item.slice(1).includes('#')), error: 'Хештеги разделяются пробелами' },
+    { check: inputArrays.some((item) => !item.startsWith('#')), error: 'Хештег должен начинаться с символа #' },
+    { check: uniqueHashtags.size !== inputArrays.length, error: 'Хештеги не должны повторяться' },
+    { check: inputArrays.some((item) => item.length > MAX_SYMBOLS), error: 'Хештег не может быть больше 20 символов' },
+    { check: inputArrays.length > MAX_HASHTAG, error: `Нельзя указать больше ${MAX_HASHTAG} ${numDecline(MAX_HASHTAG, 'хештега', 'хештегов', 'хештегов')}` },
+    { check: inputArrays.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)), error: 'Хэштег содержит недопустимые символы' },
   ];
 
   return validationRules.every((rule) => {
