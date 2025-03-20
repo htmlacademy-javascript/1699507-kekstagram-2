@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Екатерина Склярова](https://up.htmlacademy.ru/javascript-individual/2/user/1699507).
-* Наставник: [Алексей Хапов](https://htmlacademy.ru/profile/id118459).
+* Наставник: [Алексей Хапов].
 
 ---
 
