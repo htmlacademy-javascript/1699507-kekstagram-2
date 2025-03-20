@@ -13,9 +13,6 @@ const onEscKeydown = (evt, cb) => {
   }
 };
 
-//Функция для получения случайного элемента массива
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
 const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
   if (num % 10 === 0 || num % 100 > 4 && num % 100 < 21) {
     return genitivePlural;
