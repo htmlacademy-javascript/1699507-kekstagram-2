@@ -1,24 +1,38 @@
 import { renderPhotos } from './thumbnail.js';
-import { debounce } from './util.js';
+import { debounce, DEBOUNCE_DELAY } from './util.js';
+
+const Filter = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
+};
+
+const MAX_PICTURE_COUNT = 10;
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const filterElement = document.querySelector('.img-filters');
-let currentFilter = 'filter-default';
+let currentFilter = Filter.DEFAULT;
 let pictures = [];
 
-const debouncedRender = debounce(renderPhotos, 500);
+const debouncedRender = debounce(renderPhotos, DEBOUNCE_DELAY);
 
-function onFilterChange(evt) {
+function onFilterClick(evt) {
   const targetButton = evt.target;
-  const activeButton = document.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
-  if (!targetButton.matches('button' || activeButton === targetButton)) {
+
+  // Проверяем, что клик был по кнопке и это не текущий активный фильтр
+  if (!targetButton.matches('button') || targetButton.id === currentFilter) {
     return;
   }
 
-  activeButton.classList.toggle(ACTIVE_BUTTON_CLASS);
-  targetButton.classList.toggle(ACTIVE_BUTTON_CLASS);
+  // Убираем активный класс у текущей кнопки
+  const activeButton = document.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
+  activeButton.classList.remove(ACTIVE_BUTTON_CLASS);
+
+  // Добавляем активный класс к новой кнопке
+  targetButton.classList.add(ACTIVE_BUTTON_CLASS);
   currentFilter = targetButton.id;
 
+  // Применяем фильтр
   applyFilter();
 }
 
@@ -26,14 +40,14 @@ function applyFilter() {
   let filteredPictures = [];
 
   switch (currentFilter) {
-    case 'filter-default':
-      filteredPictures = pictures;
+    case Filter.DEFAULT:
+      filteredPictures = pictures.slice();
       break;
-    case 'filter-random':
-      filteredPictures = pictures.toSorted(() => 0.5 - Math.random()).slice(0, 10);
+    case Filter.RANDOM:
+      filteredPictures = pictures.slice().sort(() => 0.5 - Math.random()).slice(0, MAX_PICTURE_COUNT);
       break;
-    case 'filter-discussed':
-      filteredPictures = pictures.toSorted((a, b) => b.comments.length - a.comments.length);
+    case Filter.DISCUSSED:
+      filteredPictures = pictures.slice().sort((a, b) => b.comments.length - a.comments.length);
       break;
   }
 
@@ -42,7 +56,7 @@ function applyFilter() {
 
 function configFilter(picturesData) {
   filterElement.classList.remove('img-filters--inactive');
-  filterElement.addEventListener('click', onFilterChange);
+  filterElement.addEventListener('click', onFilterClick);
   pictures = picturesData;
 }
 

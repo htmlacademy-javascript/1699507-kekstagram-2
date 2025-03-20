@@ -9,13 +9,15 @@ import './load-photo.js';
 import { loadPhotos } from './api.js';
 import { configFilter } from './sorting.js';
 
+const TIME_DELAY_ERROR_ELEMENT = 5000;
+
 const initGallery = (photos) => {
   document.querySelector('.pictures').addEventListener('click', (evt) => {
-    const picture = evt.target.closest('[data-picture-id]');
+    const pictureElement = evt.target.closest('[data-picture-id]');
 
-    if (picture) {
+    if (pictureElement) {
       evt.preventDefault();
-      openFullThumbnail(picture.dataset.pictureId, photos);
+      openFullThumbnail(pictureElement.dataset.pictureId, photos);
     }
   });
 };
@@ -25,7 +27,7 @@ const showDataError = () => {
   const errorElement = template.querySelector('.data-error');
   document.body.append(errorElement);
 
-  setTimeout(() => errorElement.remove(), 5000);
+  setTimeout(() => errorElement.remove(), TIME_DELAY_ERROR_ELEMENT);
 };
 
 loadPhotos().then((photos) => {

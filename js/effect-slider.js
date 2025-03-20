@@ -1,22 +1,26 @@
 import { EffectConfig } from './effect-config.js';
 
-const form = document.querySelector('.img-upload__form');
-const imagePreview = form.querySelector('.img-upload__preview img');
-const effectLevel = form.querySelector('.effect-level__value');
-const effectSliderContainer = form.querySelector('.img-upload__effect-level');
-const effectSlider = form.querySelector('.effect-level__slider');
-const effectsList = form.querySelector('.effects__list');
+const MAX_VALUE_SLIDER = 100;
+const MIN_VALUE_SLIDER = 0;
+const SLIDER_STEP_DEFAULT = 1;
+
+const formElement = document.querySelector('.img-upload__form');
+const imagePreviewElement = formElement.querySelector('.img-upload__preview img');
+const effectLevelElement = formElement.querySelector('.effect-level__value');
+const effectSliderContainerElement = formElement.querySelector('.img-upload__effect-level');
+const effectSliderElement = formElement.querySelector('.effect-level__slider');
+const effectsListElement = formElement.querySelector('.effects__list');
 
 let currentEffect = 'none';
 
 // Инициализация слайдера
-noUiSlider.create(effectSlider, {
+noUiSlider.create(effectSliderElement, {
   range: {
-    min: 0,
-    max: 100,
+    min: MIN_VALUE_SLIDER,
+    max: MAX_VALUE_SLIDER,
   },
-  start: 100,
-  step: 1,
+  start: MAX_VALUE_SLIDER,
+  step: SLIDER_STEP_DEFAULT,
   connect: 'lower',
   format: {
     to: (value) => Number.isInteger(value) ? value : value.toFixed(1),
@@ -26,7 +30,7 @@ noUiSlider.create(effectSlider, {
 
 // Обновление параметров слайдера
 const updateSliderOptions = (effect) => {
-  effectSlider.noUiSlider.updateOptions({
+  effectSliderElement.noUiSlider.updateOptions({
     range: {
       min: EffectConfig[effect].min,
       max: EffectConfig[effect].max,
@@ -39,54 +43,58 @@ const updateSliderOptions = (effect) => {
 // Применение эффекта к изображению
 const applyEffect = (effect, value) => {
   if (effect === 'none') {
-    imagePreview.style.filter = 'none';
-    effectLevel.value = '';
+    imagePreviewElement.style.filter = 'none';
+    effectLevelElement.value = '';
     return;
   }
 
   const { filter, unit } = EffectConfig[effect];
-  imagePreview.style.filter = `${filter}(${value}${unit})`;
-  effectLevel.value = value;
+  imagePreviewElement.style.filter = `${filter}(${value}${unit})`;
+  effectLevelElement.value = value;
 };
 
 // Обработчик изменения положения слайдера
-effectSlider.noUiSlider.on('update', (values, handle) => {
+const onSliderUpdate = (values, handle) => {
   const value = values[handle];
   applyEffect(currentEffect, value);
-});
+};
 
 // Обработчик изменения эффекта
-effectsList.addEventListener('change', (evt) => {
+const onEffectChange = (evt) => {
   if (evt.target.name === 'effect') {
     currentEffect = evt.target.value;
 
     if (currentEffect === 'none') {
-      effectSliderContainer.classList.add('hidden');
+      effectSliderContainerElement.classList.add('hidden');
       applyEffect('none');
     } else {
-      effectSliderContainer.classList.remove('hidden');
+      effectSliderContainerElement.classList.remove('hidden');
       updateSliderOptions(currentEffect);
     }
 
     // Сброс слайдера к максимальному значению
-    effectSlider.noUiSlider.set(EffectConfig[currentEffect].max);
+    effectSliderElement.noUiSlider.set(EffectConfig[currentEffect].max);
   }
-});
+};
 
-//Функция сброса эффектов
+// Функция сброса эффектов
 const resetEffects = () => {
   currentEffect = 'none';
-  imagePreview.style.filter = 'none';
-  effectLevel.value = '';
-  effectSliderContainer.classList.add('hidden');
-  effectsList.querySelector('#effect-none').checked = true;
-  effectSlider.noUiSlider.updateOptions({
-    range: { min: 0, max: 100 },
-    start: 100
+  imagePreviewElement.style.filter = 'none';
+  effectLevelElement.value = '';
+  effectSliderContainerElement.classList.add('hidden');
+  effectsListElement.querySelector('#effect-none').checked = true;
+  effectSliderElement.noUiSlider.updateOptions({
+    range: { min: MIN_VALUE_SLIDER, max: MAX_VALUE_SLIDER },
+    start: MAX_VALUE_SLIDER
   });
 };
 
+effectSliderElement.noUiSlider.on('update', onSliderUpdate);
+
+effectsListElement.addEventListener('change', onEffectChange);
+
 // Инициализация состояния
-effectSliderContainer.classList.add('hidden');
+effectSliderContainerElement.classList.add('hidden');
 
 export { resetEffects };

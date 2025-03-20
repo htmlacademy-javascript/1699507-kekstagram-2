@@ -1,29 +1,31 @@
-//Массив допустимых расширений файлов для загрузки
+// Массив допустимых расширений файлов для загрузки
 const TYPES_FILE = ['jpg', 'jpeg', 'png'];
 
-const uploadFile = document.querySelector('#upload-file');
-const uploadPreviewContainer = document.querySelector('.img-upload__preview');
-const uploadPreview = uploadPreviewContainer.querySelector('img');
-const previews = document.querySelectorAll('.effects__preview');
+const uploadFileElement = document.querySelector('#upload-file');
+const uploadPreviewContainerElement = document.querySelector('.img-upload__preview');
+const uploadPreviewElement = uploadPreviewContainerElement.querySelector('img');
+const previewElements = document.querySelectorAll('.effects__preview');
 
-uploadFile.addEventListener('change', () => {
-
-  const file = uploadFile.files[0];
+// Обработчик изменения файла
+const onUploadFileChange = () => {
+  const file = uploadFileElement.files[0];
   const fileName = file.name.toLowerCase();
-
-  const matches = TYPES_FILE.some((it) => fileName.endsWith(it));
+  const fileExt = fileName.split('.').pop();
+  const matches = TYPES_FILE.includes(fileExt);
 
   if (matches) {
-    const reader = new FileReader();
+    // Создаем blob: URL
+    const blobUrl = URL.createObjectURL(file);
 
-    reader.addEventListener('load', () => {
-      uploadPreview.src = reader.result;
+    // Устанавливаем blob: URL в src изображения
+    uploadPreviewElement.src = blobUrl;
 
-      previews.forEach((filter) => {
-        filter.style.backgroundImage = `url(${reader.result})`;
-      });
+    // Устанавливаем blob: URL в background-image для превью эффектов
+    previewElements.forEach((previewElement) => {
+      previewElement.style.backgroundImage = `url(${blobUrl})`;
     });
-
-    reader.readAsDataURL(file);
   }
-});
+};
+
+// Добавляем обработчик события
+uploadFileElement.addEventListener('change', onUploadFileChange);

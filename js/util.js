@@ -1,3 +1,5 @@
+const DEBOUNCE_DELAY = 500;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -12,7 +14,6 @@ const onEscKeydown = (evt, cb) => {
 };
 
 //Функция для получения случайного элемента массива
-
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
@@ -25,7 +26,7 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
 };
 
 //Функция устранения дребезга
-function debounce (callback, timeoutDelay = 500) {
+function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   let timeoutId;
 
   return (...rest) => {
@@ -34,4 +35,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce};
+export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};

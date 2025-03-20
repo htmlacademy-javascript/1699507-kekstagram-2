@@ -1,41 +1,41 @@
 import { onEscKeydown } from './util.js';
 import { clearComments, renderComments } from './render-comments.js';
 
-const fullThumbnail = document.querySelector('.big-picture');
-const fullThumbnailImgNode = document.querySelector('.big-picture__img').querySelector('img');
-const likesCountNode = fullThumbnail.querySelector('.likes-count');
-const messageCaptionNode = fullThumbnail.querySelector('.social__caption');
-const fullThumbnailCancelNode = fullThumbnail.querySelector('.big-picture__cancel');
+const fullThumbnailElement = document.querySelector('.big-picture');
+const fullThumbnailImgElement = document.querySelector('.big-picture__img').querySelector('img');
+const likesCountElement = fullThumbnailElement.querySelector('.likes-count');
+const messageCaptionElement = fullThumbnailElement.querySelector('.social__caption');
+const fullThumbnailCancelElement = fullThumbnailElement.querySelector('.big-picture__cancel');
 
 function onFullThumbnailCancelClick() {
-  closefullThumbnail();
+  closeFullThumbnail();
 }
 
-const closeOnDocumentEscape = (evt) => {
-  onEscKeydown(evt, closefullThumbnail);
+const onDocumentEscKeydown = (evt) => {
+  onEscKeydown(evt, closeFullThumbnail);
 };
 
-function closefullThumbnail() {
+function closeFullThumbnail() {
   clearComments();
 
-  fullThumbnail.classList.add('hidden');
+  fullThumbnailElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', closeOnDocumentEscape);
+  document.removeEventListener('keydown', onDocumentEscKeydown);
 }
 
 const openFullThumbnail = (pictureId, photos) => {
   const currentPhoto = photos.find((photo) => photo.id === Number(pictureId));
 
-  fullThumbnailImgNode.src = currentPhoto.url;
-  likesCountNode.innerHTML = currentPhoto.likes;
-  messageCaptionNode.textContent = currentPhoto.description;
+  fullThumbnailImgElement.src = currentPhoto.url;
+  likesCountElement.innerHTML = currentPhoto.likes;
+  messageCaptionElement.textContent = currentPhoto.description;
 
   renderComments(currentPhoto.comments);
 
-  fullThumbnail.classList.remove('hidden');
+  fullThumbnailElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  fullThumbnailCancelNode.addEventListener('click', onFullThumbnailCancelClick);
-  document.addEventListener('keydown', closeOnDocumentEscape);
+  fullThumbnailCancelElement.addEventListener('click', onFullThumbnailCancelClick);
+  document.addEventListener('keydown', onDocumentEscKeydown);
 };
 
 export { openFullThumbnail };
