@@ -13,9 +13,6 @@ const onEscKeydown = (evt, cb) => {
   }
 };
 
-//Функция для получения случайного элемента массива
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
 const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
   if (num % 10 === 0 || num % 100 > 4 && num % 100 < 21) {
     return genitivePlural;
@@ -25,7 +22,6 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
     : genitiveSingular;
 };
 
-//Функция устранения дребезга
 function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   let timeoutId;
 
@@ -35,4 +31,4 @@ function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   };
 }
 
-export {getRandomArrayElement, getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};
+export {getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};
