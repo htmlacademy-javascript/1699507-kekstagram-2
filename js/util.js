@@ -1,12 +1,5 @@
 const DEBOUNCE_DELAY = 500;
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
 const onEscKeydown = (evt, cb) => {
   if (evt.key === 'Escape' && cb) {
     cb();
@@ -31,4 +24,4 @@ function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   };
 }
 
-export {getRandomInteger, onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};
+export {onEscKeydown, numDecline, debounce, DEBOUNCE_DELAY};
